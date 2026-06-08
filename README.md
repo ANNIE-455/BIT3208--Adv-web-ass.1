@@ -1,3 +1,10 @@
+ #Sweet Cake Shop Assignment
+
+[View the full Advanced Web Assignment Document on Google Docs](https://docs.google.com/document/d/1Vjwzuczp8DW7YPc0OVp3XM24nr1lMRDE/edit?usp=sharing&ouid=113571141949667734077&rtpof=true&sd=true)
+
+[View the full logbook document on google docs](https://docs.google.com/document/d/15rkFBhV7H0BP9oo9uHbZ9RynIeh9fWba/edit?usp=sharing&ouid=113571141949667734077&rtpof=true&sd=true)
+
+
 
 
 STUDENT DETAILS.
@@ -148,11 +155,4 @@ Figure 23 Add records(INSERT)
 Figure 24 Delete records(DELETE)
 Student reflection
 The MySQL database ensures permanent data persistence. The database schema includes an auto-incrementing primary key and timestamp to track registration order. The final integration immediately fetches and displays real-time registration data via a dynamically generated  table directly after form submission, fully completing the stateless flow.
-
-# Sweet Cake Shop Assignment
-
-👉 [View the full Advanced Web Assignment Document on Google Docs](https://docs.google.com/document/d/1Vjwzuczp8DW7YPc0OVp3XM24nr1lMRDE/edit?usp=sharing&ouid=113571141949667734077&rtpof=true&sd=true)
-
-
-
 
