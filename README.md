@@ -53,96 +53,69 @@ BIT3208_Project/
         └── Database Schema.pdf
 
 
-# Sweet Cake Shop Management System
+ Sweet Cake Shop Management System
 
-## Project Description
+Project Description
 
 Sweet Cake Shop is a web-based cake ordering and customer management system developed using HTML, CSS, JavaScript, PHP, and MySQL. The application provides customers with an interactive platform for browsing cake products, viewing reviews, reading blogs, and creating user accounts through a secure authentication system.
 
 The system also incorporates password strength checking, form validation, session-based authentication, and CRUD operations for managing customer records and products.
 
+ Objectives
 
-# Objectives
-
-* Develop a responsive cake shop website.
-* Implement user registration and login functionality.
-* Validate user inputs using JavaScript.
-* Secure passwords using hashing techniques.
-* Store user information in MySQL.
-* Perform CRUD operations using PHP and MySQL.
-* Enhance user experience through responsive design.
-
+- Develop a responsive cake shop website.
+- Implement user registration and login functionality.
+- Validate user inputs using JavaScript.
+- Secure passwords using hashing techniques.
+- Store user information in MySQL.
+-Perform CRUD operations using PHP and MySQL.
+-Enhance user experience through responsive design.
 
 
-# Technology Stack
+Technology Stack
 
 Frontend:
-
-* HTML5
-* CSS3
-* JavaScript
-* Swiper.js
-* Font Awesome
+- HTML5
+- CSS3
+-JavaScript
 
 Backend:
-
-* PHP
+-PHP
 
 Database:
-
-* MySQL
+-MySQL
 
 Development Environment:
+-XAMPP
 
-* XAMPP
+Features
+User Authentication
 
-Version Control:
+ -User Registration
+ -User Login
+ -Password Hashing
+ -Password Verification
+ -Session Management
 
-* Git & GitHub
-
-
-
-# Features
-
-## User Authentication
-
-* User Registration
-* User Login
-* Password Hashing
-* Password Verification
-* Session Management
-
-## Password Security
-
-* Real-time Password Strength Checker
-* Email Validation
-* Password Length Validation
-* Uppercase Character Detection
-* Number Detection
-* Special Character Detection
-
-## Cake Shop Features
-
-* Home Page
-* Product Showcase
-* Customer Reviews
-* Blog Section
-* Newsletter Subscription
-* Responsive Navigation Menu
-* Search Functionality
-
-## Database Features
-
-* User Registration Storage
-* Login Authentication
-* CRUD Operations
-* Data Retrieval
-* Data Updates
-* Data Deletion
+Password Security
+-Real-time Password Strength Checker
+-Email Validation
+-Password Length Validation
+-Uppercase Character Detection
+-Number Detection
+-Special Character Detection
 
 
+Database Features
 
-# Project Structure
+-User Registration Storage
+-Login Authentication
+-CRUD Operations
+-Data Retrieval
+-Data Updates
+-Data Deletion
+
+Project Structure
 
 BIT3208_Project/
 │
@@ -154,100 +127,90 @@ BIT3208_Project/
 └── Documentation/
 
 
+Weekly Development Summary
 
-# Weekly Development Summary
-
-## Week 1: Environment Setup
-
-Activities:
-
-* Installed XAMPP
-* Configured Apache Server
-* Configured MySQL Server
-* Tested PHP Execution
-* Created Initial Database
-
-Deliverables:
-
-* test.php
-* Week1db.sql
-
-
-
-## Week 2: Website Layout and Integration
+Week 1: Environment Setup
 
 Activities:
 
-* Created HTML Structure
-* Designed User Interface
-* Added Navigation Menu
-* Implemented CSS Styling
-* Integrated PHP Forms
+ Installed XAMPP
+ Configured Apache Server
+ Configured MySQL Server
+ Tested PHP Execution
+*Created Initial Database
 
 Deliverables:
+ test.php
+ Week1db.sql
 
-* index.html
-* style.css
-* auth.php
-
-
-
-## Week 3: Form Validation and Password Strength Checker
+ Week 2: Website Layout and Integration
 
 Activities:
 
-* JavaScript Validation
-* Email Validation
-* Password Length Validation
-* Password Strength Meter
+Created HTML Structure
+Designed User Interface
+Added Navigation Menu
+Implemented CSS Styling
+Integrated PHP Forms
 
 Deliverables:
 
-* index.js
-* Validation Screenshots
-* Week3db.sql
+index.html
+style.css
+auth.php
 
-
-
-## Week 4: PHP Backend Development
+Week 3: Form Validation and Password Strength Checker
 
 Activities:
 
-* User Registration
-* Login Authentication
-* Password Hashing
-* Password Verification
-* Database Connectivity
+JavaScript Validation
+Email Validation
+Password Length Validation
+Password Strength Meter
 
 Deliverables:
 
-* auth.php
-* Week4db.sql
+index.js
+Validation Screenshots
+Week3db.sql
 
 
-
-## Week 5: CRUD Operations
+Week 4: PHP Backend Development
 
 Activities:
 
-* Create Records
-* Read Records
-* Update Records
-* Delete Records
+User Registration
+Login Authentication
+Password Hashing
+Password Verification
+Database Connectivity
 
 Deliverables:
 
-* CRUD Modules
-* Week5db.sql
+auth.php
+Week4db.sql
+
+Week 5: CRUD Operations
+
+Activities:
+
+Create Records
+Read Records
+Update Records
+Delete Records
+
+Deliverables:
+
+CRUD Modules
+Week5db.sql
 
 
-
-# Database Structure
+Database Structure
 
 Database Name:
 cake_db
 
-## Table: users
+Table: users
 
 | Field    | Type         | Description     |
 | -------- | ------------ | --------------- |
@@ -266,7 +229,7 @@ password VARCHAR(255) NOT NULL
 );
 
 
-# Authentication Workflow
+Authentication Workflow
 
 1. User enters registration details.
 2. Password is hashed using PASSWORD_DEFAULT.
@@ -277,7 +240,7 @@ password VARCHAR(255) NOT NULL
 
 
 
-# Session Management
+Session Management
 
 The system can be extended using PHP sessions.
 
@@ -287,62 +250,53 @@ session_start();
 
 $_SESSION['username'] = $row['username'];
 
-Benefits:
 
-* Maintains logged-in user state.
-* Prevents unauthorized access.
-* Supports logout functionality.
-
----
-
-# API Endpoints
-
-## User Registration
+User Registration
 
 Endpoint:
 POST /auth.php
 
 Parameters:
 
-* username
-* email
-* password
-* signup
+username
+email
+password
+signup
 
 Response:
 
-* Account created successfully
+Account created successfully
 
 
 
-## User Login
+User Login
 
 Endpoint:
 POST /auth.php
 
 Parameters:
 
-* username
-* password
-* login
+username
+password
+login
 
 Response:
 
-* Welcome back user
+Welcome back user
 
 
-# Installation Guide
+Installation Guide
 
-## Prerequisites
+Prerequisites
 
-* XAMPP
-* PHP 8+
-* MySQL
-* Web Browser
-* Code Editor (VS Code)
+XAMPP
+PHP
+MySQL
+Web Browser
+Code Editor (VS Code)
 
 
-## Installation Steps
+Installation Steps
 
 1. Install XAMPP.
 2. Start Apache and MySQL.
@@ -365,17 +319,15 @@ http://localhost/SweetCake
 8. Login to access the system.
 
 
-# Future Improvements
+Future Improvements
 
-* Product Ordering System
-* Shopping Cart
-* Payment Gateway Integration
-* Admin Dashboard
-* Order Tracking
-* Email Notifications
-* Customer Profiles
-
-
+-Product Ordering System
+-Shopping Cart
+-Payment Gateway Integration
+-Admin Dashboard
+-Order Tracking
+-Email Notifications
+-Customer Profiles
 
 
 Course Unit: BIT3208 Web Development Project
