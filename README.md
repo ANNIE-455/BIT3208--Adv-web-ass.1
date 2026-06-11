@@ -314,6 +314,7 @@ cake_db
 
 http://localhost/sweetCake/index.html#home
 
+
 7. Register an account.
 
 8. Login to access the system.
