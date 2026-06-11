@@ -312,7 +312,7 @@ cake_db
 
 6. Open browser and visit:
 
-http://localhost/SweetCake
+http://localhost/sweetCake/index.html#home
 
 7. Register an account.
 
