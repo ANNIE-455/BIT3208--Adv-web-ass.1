@@ -15,7 +15,7 @@ Semester/Academic Year: Sem 2, Year 3
 
 GitHub Link: https://github.com/ANNIE-455/Sweet-Cake-Shop
 
- ` ```text`
+ ```text
 BIT3208_Project/
 ├── Week1/
 │   ├── XAMPP Installation Screenshots/
