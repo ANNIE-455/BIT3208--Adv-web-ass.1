@@ -8,9 +8,7 @@
     <title>Sweet Cake</title>
 
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -32,7 +30,7 @@
 
         <div class="icon">
             <i class="fas fa-search" id="search"></i>
-            <i class="fas fa-user" id="login-btn"></i> 
+            <i class="fas fa-user" id="login-btn"></i>
             <i class="fas fa-bars" id="menu-bar"></i>
         </div>
 
@@ -55,7 +53,7 @@
         <div class="heading">
             <h2>Our Exclusive Products</h2>
         </div>
-        
+
         <div class="swiper product-row">
             <div class="swiper-wrapper">
                 <div class="swiper-slide box">
@@ -314,14 +312,15 @@
                         <input type="email" name="email" required>
                         <label>Email</label>
                     </div>
-                   <div class="form-group">
-  <label>Password</label>
-  <input type="password" id="regPass" placeholder="••••••••" oninput="checkStrength(this.value)" />
-  <div id="strengthBar">
-    <div id="strengthFill"></div>
-  </div>
-  <div id="strengthLabel"></div>
-</div>
+                    <div class="input-group">
+                        <input type="password" name="password" id="regPass" oninput="checkStrength(this.value)" required>
+                        <label>Password</label>
+                    </div>
+                    <div id="strengthBar" style="margin-top: 5px; background: #ddd; height: 5px; width: 100%;">
+                        <div id="strengthFill" style="height: 100%; width: 0%; transition: width 0.3s;"></div>
+                    </div>
+                    <div id="strengthLabel" style="font-size: 12px; margin-bottom: 10px;"></div>
+
                     <div class="remember">
                         <label><input type="checkbox" required>I agree to the terms & conditions</label>
                     </div>
@@ -333,17 +332,8 @@
             </div>
         </div>
     </div>
-<div class="form-group">
-  <label>Password</label>
-  <input type="password" id="regPass" placeholder="••••••••" oninput="checkStrength(this.value)" />
-  <div id="strengthBar">
-    <div id="strengthFill"></div>
-  </div>
-  <div id="strengthLabel"></div>
-</div>
 
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
     <script src="index.js"></script>
 
 </body>
