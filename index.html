@@ -7,15 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sweet Cake</title>
 
-    <!-- swiper link -->
+    <!-- swiper -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Leaflet map CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- custom css -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+    <!-- ===== SESSION INFO BAR (shown when logged in) ===== -->
+    <!--
+        This bar is hidden by default.
+        auth.php sets a cookie "sc_session_info" with session data after login.
+        index.js reads it and makes this bar visible.
+        This satisfies: "Display session ID and login time on the dashboard"
+    -->
+    <div class="session-bar" id="session-bar" style="display:none;">
+        <span><i class="fas fa-user-check"></i> Logged in as: <strong id="session-username"></strong></span>
+        <span><i class="fas fa-clock"></i> Login time: <strong id="session-login-time"></strong></span>
+        <span><i class="fas fa-fingerprint"></i> Session ID: <strong id="session-id-display"></strong></span>
+        <button onclick="logoutUser()" class="session-bar-logout">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+    <!-- ===== END SESSION BAR ===== -->
 
     <!-- ===== HEADER ===== -->
     <header class="header">
@@ -33,7 +52,7 @@
         </nav>
 
         <div class="icon">
-            <!-- Theme toggle -->
+            <!-- Theme toggle — cookie saves preference -->
             <i class="fas fa-moon" id="theme-toggle" title="Toggle dark/light mode"></i>
             <!-- Search -->
             <i class="fas fa-search" id="search"></i>
@@ -65,10 +84,64 @@
         </div>
         <div class="cart-footer">
             <p>Total: <strong id="cart-total">KSh 0</strong></p>
-            <button id="checkout-btn" onclick="window.location.href='#contact'">Checkout</button>
+            <button id="checkout-btn">Checkout &amp; Pay</button>
         </div>
     </div>
     <!-- ===== END CART ===== -->
+
+    <!-- ===== CHECKOUT MODAL (map + mpesa) ===== -->
+    <div class="modal-overlay" id="checkout-overlay"></div>
+    <div class="order-modal" id="checkout-modal">
+        <div class="modal-header">
+            <h3>Complete Your Order</h3>
+            <i class="fas fa-times" id="close-checkout-modal"></i>
+        </div>
+
+        <!-- Step 1: Delivery + Map -->
+        <div id="checkout-step-1">
+            <div class="modal-field">
+                <label>Your Name</label>
+                <input type="text" id="co-name" placeholder="e.g. Jane Wanjiku" required>
+            </div>
+            <div class="modal-field">
+                <label>Phone Number</label>
+                <input type="tel" id="co-phone" placeholder="e.g. 0712345678" required>
+            </div>
+            <div class="modal-field">
+                <label>Delivery Area (Nairobi / Kiambu only)</label>
+                <input type="text" id="co-address" placeholder="Type your area e.g. Westlands" autocomplete="off">
+                <div id="address-suggestions" class="suggestions-list"></div>
+            </div>
+            <div id="delivery-map"></div>
+            <div id="delivery-fee-display" class="delivery-fee-box" style="display:none;">
+                <i class="fas fa-motorcycle"></i>
+                Estimated Delivery Fee: <strong id="delivery-fee-amount">KSh 0</strong>
+            </div>
+            <button type="button" onclick="goToPaymentStep()">Continue to Payment</button>
+        </div>
+
+        <!-- Step 2: M-Pesa / Airtel -->
+        <div id="checkout-step-2" style="display:none;">
+            <div class="mpesa-info">
+                <i class="fas fa-mobile-alt" style="color:#2ecc71;font-size:3rem;"></i>
+                <h4>M-Pesa / Airtel Money — Deposit</h4>
+                <p>Send <strong>KSh 5</strong> as a deposit to confirm your order:</p>
+                <p class="pay-number">0715 862 144</p>
+                <p class="pay-note">Full balance collected on delivery.</p>
+            </div>
+            <div class="modal-field">
+                <label>Your M-Pesa or Airtel Number</label>
+                <input type="tel" id="co-mpesa" placeholder="e.g. 0712345678" required>
+            </div>
+            <div class="modal-field">
+                <label>Transaction Code (from your SMS)</label>
+                <input type="text" id="co-mpesa-code" placeholder="e.g. QHX7Y1234Z" class="uppercase-input" required>
+            </div>
+            <button type="button" onclick="submitCheckoutOrder()">Confirm Order</button>
+            <button type="button" class="back-btn" onclick="goBackToStep1()">&#8592; Back</button>
+        </div>
+    </div>
+    <!-- ===== END CHECKOUT MODAL ===== -->
 
     <!-- ===== HOME ===== -->
     <section class="home" id="home">
@@ -93,7 +166,9 @@
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake1.jpg" alt="Chocolate Fudge Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake1.jpg" alt="Chocolate Fudge Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Chocolate Fudge</h3>
                         <p>A rich, moist chocolate cake layered with creamy fudge frosting. Perfect for birthdays and celebrations.</p>
@@ -109,7 +184,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake2.jpg" alt="Vanilla Dream Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake2.jpg" alt="Vanilla Dream Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Vanilla Dream</h3>
                         <p>A light, fluffy vanilla sponge cake with silky buttercream frosting. A timeless classic everyone loves.</p>
@@ -125,7 +202,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake3.jpg" alt="Red Velvet Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake3.jpg" alt="Red Velvet Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Red Velvet</h3>
                         <p>Striking red layers with a hint of cocoa, topped with smooth cream cheese frosting. Stunning and delicious.</p>
@@ -141,7 +220,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake4.jpg" alt="Strawberry Bliss Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake4.jpg" alt="Strawberry Bliss Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Strawberry Bliss</h3>
                         <p>Fresh strawberries folded into a soft chiffon cake with whipped cream. Sweet, fruity, and refreshing.</p>
@@ -165,7 +246,9 @@
             <div class="swiper-wrapper">
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake5.jpg" alt="Lemon Zest Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake5.jpg" alt="Lemon Zest Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Lemon Zest</h3>
                         <p>Bright citrus flavour in a moist lemon sponge, finished with lemon glaze. Tangy and utterly refreshing.</p>
@@ -181,7 +264,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake6.jpg" alt="Caramel Crunch Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake6.jpg" alt="Caramel Crunch Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Caramel Crunch</h3>
                         <p>Layers of caramel-soaked sponge topped with crunchy toffee pieces and smooth caramel buttercream.</p>
@@ -197,7 +282,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake7.jpg" alt="Black Forest Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake7.jpg" alt="Black Forest Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Black Forest</h3>
                         <p>Classic German-style chocolate cake with cherries, whipped cream, and chocolate shavings on top.</p>
@@ -213,7 +300,9 @@
                 </div>
 
                 <div class="swiper-slide box">
-                    <div class="img"><img src="images/cake8.jpg" alt="Mango Delight Cake"></div>
+                    <div class="cake-img-wrap">
+                        <img src="images/cake8.jpg" alt="Mango Delight Cake">
+                    </div>
                     <div class="product-content">
                         <h3>Mango Delight</h3>
                         <p>Tropical mango mousse layered between soft vanilla sponge. A summer favourite packed with fruity flavour.</p>
@@ -234,7 +323,7 @@
     </section>
     <!-- ===== END PRODUCTS ===== -->
 
-    <!-- ===== ORDER MODAL ===== -->
+    <!-- ===== ORDER MODAL (single cake) ===== -->
     <div class="modal-overlay" id="modal-overlay"></div>
     <div class="order-modal" id="order-modal">
         <div class="modal-header">
@@ -244,7 +333,6 @@
         <form action="auth.php" method="POST" id="order-form">
             <input type="hidden" name="cake_name" id="modal-cake-name">
             <input type="hidden" name="cake_price" id="modal-cake-price">
-
             <div class="modal-field">
                 <label>Your Name</label>
                 <input type="text" name="customer_name" placeholder="e.g. Jane Wanjiku" required>
@@ -344,23 +432,18 @@
                         <p>"The chocolate fudge cake was absolutely divine! My guests could not stop talking about it. Will definitely order again for my next event."</p>
                     </div>
                     <div class="client-info">
-                        <div class="img"><img src="images/client1.jpg" alt="Hardy David"></div>
-                        <div class="clientDetailed">
-                            <h3>Hardy David</h3>
-                            <p>UI / UX Designer</p>
-                        </div>
+                        <div class="anon-icon"><i class="fas fa-user-circle"></i></div>
+                        <div class="clientDetailed"><h3>Anonymous User</h3></div>
                     </div>
                 </div>
-
 
                 <div class="swiper-slide box">
                     <div class="client-review">
                         <p>"Fast delivery, excellent packaging, and the cake was fresh and moist. I have found my go-to bakery in Nairobi. Highly recommended!"</p>
                     </div>
                     <div class="client-info">
-                        <div class="clientDetailed">
-                            <h3>Brian Otieno</h3>
-                                                </div>
+                        <div class="anon-icon"><i class="fas fa-user-circle"></i></div>
+                        <div class="clientDetailed"><h3>Anonymous User</h3></div>
                     </div>
                 </div>
 
@@ -369,9 +452,8 @@
                         <p>"The black forest cake was everything I imagined and more. The cherries were fresh and the cream was perfectly balanced. A true masterpiece!"</p>
                     </div>
                     <div class="client-info">
-                        <div class="clientDetailed">
-                            <h3>Amina Hassan</h3>
-                        </div>
+                        <div class="anon-icon"><i class="fas fa-user-circle"></i></div>
+                        <div class="clientDetailed"><h3>Anonymous User</h3></div>
                     </div>
                 </div>
 
@@ -409,8 +491,8 @@
             </div>
             <div class="box">
                 <h3>Contact Info</h3>
-                <a href="tel:+254712345678"><i class="fas fa-phone"></i> +254 715 862 144</a>
-                <a href="gitau9424@gmail.com"><i class="fas fa-envelope"></i>gitau9424@gmail.com</a>
+                <a href="tel:+254715862144"><i class="fas fa-phone"></i> +254 715 862 144</a>
+                <a href="mailto:gitau9424@gmail.com"><i class="fas fa-envelope"></i> gitau9424@gmail.com</a>
             </div>
         </div>
         <div class="share">
@@ -419,28 +501,42 @@
             <a href="#" class="fab fa-instagram"></a>
             <a href="#" class="fab fa-linkedin"></a>
             <a href="#" class="fab fa-pinterest"></a>
+        </div>
+        <p class="credit">© 2024 Sweet Cake. All Rights Reserved.</p>
+    </footer>
     <!-- ===== END FOOTER ===== -->
 
-    <!-- ===== LOGIN / SIGNUP MODAL ===== -->
+    <!-- ===== AUTH MODAL (Login / Sign Up) ===== -->
     <div class="auth-overlay" id="auth-overlay"></div>
-
     <div class="wrapper" id="auth-wrapper">
         <i class="fas fa-times close-auth" id="close-auth"></i>
 
-        <!-- Sign In Form -->
+        <!-- Sign In -->
         <div class="form-wrapper sign-in">
-            <form action="auth.php" method="POST">
+            <form action="auth.php" method="POST" id="login-form">
                 <h2>Login</h2>
                 <div class="input-group">
-                    <input type="text" name="username" required>
+                    <!--
+                        "Remember Me" cookie:
+                        index.js auto-fills this field from the sc_remember cookie if present.
+                        This satisfies: "Remember Me — username appears automatically next visit"
+                    -->
+                    <input type="text" name="username" id="login-username" autocomplete="username" required>
                     <label>Username</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="password" required>
+                    <input type="password" name="password" autocomplete="current-password" required>
                     <label>Password</label>
                 </div>
                 <div class="remember">
-                    <label><input type="checkbox"> Remember Me</label>
+                    <!--
+                        When checked, auth.php sets a cookie "sc_remember" with the username.
+                        Next visit, index.js reads the cookie and pre-fills the username field.
+                    -->
+                    <label>
+                        <input type="checkbox" name="remember_me" id="remember-me-checkbox">
+                        Remember Me
+                    </label>
                 </div>
                 <button type="submit" name="login">Login</button>
                 <div class="signUp-link">
@@ -449,28 +545,26 @@
             </form>
         </div>
 
-        <!-- Sign Up Form -->
+        <!-- Sign Up -->
         <div class="form-wrapper sign-up">
             <form action="auth.php" method="POST">
                 <h2>Sign Up</h2>
                 <div class="input-group">
-                    <input type="text" name="username" required>
+                    <input type="text" name="username" autocomplete="username" required>
                     <label>Username</label>
                 </div>
                 <div class="input-group">
-                    <input type="email" name="email" required>
+                    <input type="email" name="email" autocomplete="email" required>
                     <label>Email</label>
                 </div>
                 <div class="input-group">
-                    <input type="password" name="password" id="signup-password" required>
+                    <input type="password" name="password" id="signup-password" autocomplete="new-password" required>
                     <label>Password</label>
                 </div>
-                <!-- Password strength meter -->
                 <div class="password-strength">
                     <div class="strength-bar" id="strength-bar"></div>
                 </div>
                 <p class="strength-text" id="strength-text"></p>
-
                 <div class="remember">
                     <label><input type="checkbox" required> I agree to the terms &amp; conditions</label>
                 </div>
@@ -483,8 +577,36 @@
     </div>
     <!-- ===== END AUTH MODAL ===== -->
 
+    <!-- ===== ADMIN LOGIN MODAL ===== -->
+    <div class="auth-overlay" id="admin-overlay"></div>
+    <div class="wrapper" id="admin-wrapper" style="height:380px;">
+        <i class="fas fa-times close-auth" id="close-admin"></i>
+        <div class="form-wrapper sign-in" style="transform:translateY(0);">
+            <form action="admin.php" method="POST">
+                <h2>Admin Login</h2>
+                <div class="input-group">
+                    <input type="text" name="admin_username" autocomplete="username" required>
+                    <label>Admin Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="admin_password" autocomplete="current-password" required>
+                    <label>Admin Password</label>
+                </div>
+                <button type="submit" name="admin_login" style="margin-top:2rem;">Login as Admin</button>
+            </form>
+        </div>
+    </div>
+    <!-- ===== END ADMIN MODAL ===== -->
+
+    <!-- Admin trigger button -->
+    <div id="admin-trigger" onclick="openAdminLogin()">
+        <i class="fas fa-lock"></i> Admin
+    </div>
+
     <!-- swiper js -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <!-- Leaflet map JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <!-- custom js -->
     <script src="index.js"></script>
 
