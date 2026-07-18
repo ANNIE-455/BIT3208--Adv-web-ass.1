@@ -686,4 +686,20 @@ const reviewSwiper = new Swiper('.review-row', {
 window.addEventListener('load', () => {
     loadSessionBar();      // show session info if logged in
     checkSessionExpiry();  // immediate check on load
+    highlightActiveNav();  // highlight current page in navbar
 });
+
+// =============================================
+//  HIGHLIGHT ACTIVE NAV LINK
+//  Adds 'active-link' class to the navbar link
+//  that matches the current page
+// =============================================
+function highlightActiveNav() {
+    const currentPage = window.location.pathname.split('/').pop();
+    document.querySelectorAll('.navbar a').forEach(link => {
+        const linkPage = link.getAttribute('href').split('/').pop();
+        if (linkPage === currentPage && currentPage !== '') {
+            link.classList.add('active-link');
+        }
+    });
+}

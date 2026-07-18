@@ -20,12 +20,6 @@
 <body>
 
     <!-- ===== SESSION INFO BAR (shown when logged in) ===== -->
-    <!--
-        This bar is hidden by default.
-        auth.php sets a cookie "sc_session_info" with session data after login.
-        index.js reads it and makes this bar visible.
-        This satisfies: "Display session ID and login time on the dashboard"
-    -->
     <div class="session-bar" id="session-bar" style="display:none;">
         <span><i class="fas fa-user-check"></i> Logged in as: <strong id="session-username"></strong></span>
         <span><i class="fas fa-clock"></i> Login time: <strong id="session-login-time"></strong></span>
@@ -49,20 +43,17 @@
             <a href="#blogs">Blogs</a>
             <a href="#review">Reviews</a>
             <a href="#contact">Contact</a>
+            <!-- Link to orders/customers page — visible to all -->
+            <a href="customers.php">My Orders</a>
         </nav>
 
         <div class="icon">
-            <!-- Theme toggle — cookie saves preference -->
             <i class="fas fa-moon" id="theme-toggle" title="Toggle dark/light mode"></i>
-            <!-- Search -->
             <i class="fas fa-search" id="search"></i>
-            <!-- Cart -->
             <i class="fas fa-shopping-cart" id="cart-icon" title="View cart">
                 <span class="cart-count" id="cart-count">0</span>
             </i>
-            <!-- User / Login -->
             <i class="fas fa-user-circle" id="user-icon" title="Login / Sign Up"></i>
-            <!-- Hamburger -->
             <i class="fas fa-bars" id="menu-bar"></i>
         </div>
 
@@ -480,6 +471,7 @@
                 <a href="#blogs"><i class="fas fa-arrow-right"></i> Blogs</a>
                 <a href="#review"><i class="fas fa-arrow-right"></i> Reviews</a>
                 <a href="#contact"><i class="fas fa-arrow-right"></i> Contact</a>
+                <a href="customers.php"><i class="fas fa-arrow-right"></i> My Orders</a>
             </div>
             <div class="box">
                 <h3>Extra Links</h3>
@@ -516,11 +508,6 @@
             <form action="auth.php" method="POST" id="login-form">
                 <h2>Login</h2>
                 <div class="input-group">
-                    <!--
-                        "Remember Me" cookie:
-                        index.js auto-fills this field from the sc_remember cookie if present.
-                        This satisfies: "Remember Me — username appears automatically next visit"
-                    -->
                     <input type="text" name="username" id="login-username" autocomplete="username" required>
                     <label>Username</label>
                 </div>
@@ -529,10 +516,6 @@
                     <label>Password</label>
                 </div>
                 <div class="remember">
-                    <!--
-                        When checked, auth.php sets a cookie "sc_remember" with the username.
-                        Next visit, index.js reads the cookie and pre-fills the username field.
-                    -->
                     <label>
                         <input type="checkbox" name="remember_me" id="remember-me-checkbox">
                         Remember Me

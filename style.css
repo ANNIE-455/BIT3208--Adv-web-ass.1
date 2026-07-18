@@ -210,6 +210,14 @@ body {
     padding-bottom: .4rem;
 }
 
+/* Active nav link — highlights "My Orders" when on customers.php */
+.header .navbar a.active-link {
+    border-bottom: .2rem solid var(--text);
+    padding-bottom: .4rem;
+    color: var(--text);
+    font-weight: 900;
+}
+
 /* Icon row */
 .header .icon {
     display: flex;
