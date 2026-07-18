@@ -282,7 +282,7 @@ body {
 .cart-overlay.active { display: block; }
 
 .cart-sidebar {
-    position: fixed; top: 0; right: -40rem;
+    position: fixed; top: 0; right: -100vw;
     width: 35rem; height: 100vh;
     background: var(--card-bg); color: var(--text);
     z-index: 1200;
@@ -814,4 +814,10 @@ body.dark-theme #admin-trigger {
     html { font-size: 50%; }
     .cart-sidebar { width: 100vw; }
     .cake-img-wrap { height: 14rem; }
+}
+@media (max-width: 600px) {
+    .cart-sidebar {
+        right: -100vw;
+        width: 100vw;
+    }
 }
