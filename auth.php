@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-$host    = "localhost";
-$db_user = "root";
-$db_pass = "";
-$db_name = "cake_db";
+$host    = "mysql.railway.internal"; // your MYSQL_HOST
+$db_user = "root";                     // your MYSQL_USER
+$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";            // your MYSQL_PASSWORD
+$db_name = "railway";
+
 
 $conn = new mysqli($host, $db_user, $db_pass, $db_name);
 if ($conn->connect_error) {

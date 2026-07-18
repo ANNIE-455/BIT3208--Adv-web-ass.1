@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$host    = "localhost";
-$db_user = "root";
-$db_pass = "";
-$db_name = "cake_db";
+$host    = "mysql.railway.internal"; // your MYSQL_HOST
+$db_user = "root";                     // your MYSQL_USER
+$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";            // your MYSQL_PASSWORD
+$db_name = "railway";
 
 // =============================================
 //  USE PDO (PreparedStatement equivalent)
@@ -14,7 +14,7 @@ $db_name = "cake_db";
 // =============================================
 try {
     $pdo = new PDO(
-        "mysql:host=$host;dbname=$db_name;charset=utf8",
+    "mysql:host=$host;port=3306;dbname=$db_name;charset=utf8",
         $db_user,
         $db_pass,
         [
