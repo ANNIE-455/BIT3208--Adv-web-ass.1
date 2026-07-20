@@ -4,14 +4,16 @@ session_start();
 define('ADMIN_USER', 'admin');
 define('ADMIN_PASS', 'sweetcake2024');
 
-$host    = "mysql.railway.internal"; // your MYSQL_HOST
-$db_user = "root";                     // your MYSQL_USER
-$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";            // your MYSQL_PASSWORD
-$db_name = "railway";                  // your MYSQL_DATABASE
+$host    = "tokaido.proxy.rlwy.net";
+$db_user = "root";
+$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";
+$db_name = "railway";
+$port    = 49769;
 
-
-$conn = new mysqli($host, $db_user, $db_pass, $db_name);
-if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$conn = new mysqli($host, $db_user, $db_pass, $db_name, $port);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 $conn->query("CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

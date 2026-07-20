@@ -1,20 +1,15 @@
 <?php
 session_start();
 
-$host    = "mysql.railway.internal"; // your MYSQL_HOST
-$db_user = "root";                     // your MYSQL_USER
-$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";            // your MYSQL_PASSWORD
+$host    = "tokaido.proxy.rlwy.net";
+$db_user = "root";
+$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";
 $db_name = "railway";
+$port    = 49769;
 
-// =============================================
-//  USE PDO (PreparedStatement equivalent)
-//  PHP PDO = Java PreparedStatement
-//  Satisfies: Week 11 — "Ensure all SQL
-//  operations use PreparedStatement"
-// =============================================
 try {
     $pdo = new PDO(
-    "mysql:host=$host;port=3306;dbname=$db_name;charset=utf8",
+        "mysql:host=$host;port=$port;dbname=$db_name;charset=utf8",
         $db_user,
         $db_pass,
         [
@@ -25,7 +20,6 @@ try {
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
-
 // Auto-create orders table if missing
 $pdo->exec("CREATE TABLE IF NOT EXISTS orders (
     id            INT AUTO_INCREMENT PRIMARY KEY,

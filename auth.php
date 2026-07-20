@@ -1,17 +1,16 @@
 <?php
 session_start();
 
-$host    = "mysql.railway.internal"; // your MYSQL_HOST
-$db_user = "root";                     // your MYSQL_USER
-$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";            // your MYSQL_PASSWORD
+$host    = "tokaido.proxy.rlwy.net";
+$db_user = "root";
+$db_pass = "YkKOBQYpumRgnUGSbtwzrzjkeZnRABYB";
 $db_name = "railway";
+$port    = 49769;
 
-
-$conn = new mysqli($host, $db_user, $db_pass, $db_name);
+$conn = new mysqli($host, $db_user, $db_pass, $db_name, $port);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 // Auto-create tables
 $conn->query("
     CREATE TABLE IF NOT EXISTS users (
